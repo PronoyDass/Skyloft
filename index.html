@@ -1,61 +1,25 @@
-<!DOCTYPE html><html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Skyloft Management</title>
-  <style>
-    body { font-family: sans-serif; margin: 20px; background: #f2f2f2; }
-    h1, h2 { color: #2c3e50; }
-    table { width: 100%; border-collapse: collapse; margin-bottom: 30px; background: white; }
-    th, td { border: 1px solid #ccc; padding: 10px; text-align: center; }
-    th { background: #2980b9; color: white; }
-    .section { margin-bottom: 40px; padding: 20px; background: white; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-    nav a { margin-right: 15px; color: #2980b9; text-decoration: none; font-weight: bold; }
-    nav { margin-bottom: 20px; }
-    .readonly { background-color: #e0e0e0; color: #333; pointer-events: none; }
-  </style>
-</head>
-<body>
-  <h1>🏡 Skyloft Management</h1>
-  <nav>
-    <a href="#home">Home</a>
-    <a href="#food">Food Market</a>
-    <a href="#essentials">Essentials</a>
-  </nav>  <div class="section" id="home">
-    <h2>🏠 Home (Read Only)</h2>
-    <p><strong>Total Fund Needed:</strong> 3000৳</p>
-    <table>
-      <tr>
-        <th>Name</th>
-        <th>Deposited</th>
-        <th>Dues</th>
-      </tr>
-      <tr>
-        <td>Rafik</td>
-        <td>1000৳</td>
-        <td>2000৳</td>
-      </tr>
-      <tr>
-        <td>Jamal</td>
-        <td>1200৳</td>
-        <td>1800৳</td>
-      </tr>
-      <tr>
-        <td>Karim</td>
-        <td>800৳</td>
-        <td>2200৳</td>
-      </tr>
-    </table>
-    <p><strong>Total Food Market Cost:</strong> 350৳</p>
-    <p><strong>Total Essentials Cost:</strong> 90৳</p>
-  </div>  <div class="section" id="food">
-    <h2>🍚 Food Market</h2>
-    <table>
+<!-- Food Market Section -->
+<div class="section" id="food">
+  <h2>🍚 Food Market</h2>
+
+  <!-- Form to add item -->
+  <form id="foodForm">
+    <input type="date" id="foodDate" required>
+    <input type="text" id="foodItem" placeholder="Item" required>
+    <input type="number" id="foodCost" placeholder="Cost (৳)" required>
+    <button type="submit">Add</button>
+  </form>
+
+  <!-- Table to show items -->
+  <table id="foodTable">
+    <thead>
       <tr>
         <th>Date</th>
         <th>Item</th>
         <th>Cost</th>
       </tr>
+    </thead>
+    <tbody>
       <tr>
         <td>June 1</td>
         <td>Rice</td>
@@ -66,26 +30,41 @@
         <td>Lentils</td>
         <td>150৳</td>
       </tr>
-    </table>
-  </div>  <div class="section" id="essentials">
-    <h2>🧼 Essentials</h2>
-    <table>
+    </tbody>
+    <tfoot>
       <tr>
-        <th>Date</th>
-        <th>Item</th>
-        <th>Cost</th>
+        <th colspan="2">Total</th>
+        <th id="foodTotal">350৳</th>
       </tr>
-      <tr>
-        <td>June 1</td>
-        <td>Soap</td>
-        <td>50৳</td>
-      </tr>
-      <tr>
-        <td>June 3</td>
-        <td>Mosquito Coil</td>
-        <td>40৳</td>
-      </tr>
-    </table>
-  </div>
-</body>
-</html>
+    </tfoot>
+  </table>
+</div>
+
+<!-- Script to handle form and table -->
+<script>
+  const foodForm = document.getElementById('foodForm');
+  const foodTable = document.getElementById('foodTable').querySelector('tbody');
+  const foodTotal = document.getElementById('foodTotal');
+
+  let totalFoodCost = 350; // initial cost
+
+  foodForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const date = document.getElementById('foodDate').value;
+    const item = document.getElementById('foodItem').value;
+    const cost = parseInt(document.getElementById('foodCost').value);
+
+    // Add row to table
+    const row = document.createElement('tr');
+    row.innerHTML = <td>${date}</td><td>${item}</td><td>${cost}৳</td>;
+    foodTable.appendChild(row);
+
+    // Update total
+    totalFoodCost += cost;
+    foodTotal.textContent = ${totalFoodCost}৳;
+
+    // Reset form
+    foodForm.reset();
+  });
+</script>
